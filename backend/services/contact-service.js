@@ -3,60 +3,109 @@ export class ContactService {
         this.url = url;
     }
 
-    async getContacts(){
-        const response = await fetch(`${this.url}/contacts`)
+    async getContacts() {
+        try {
+            const response = await fetch(`${this.url}/contacts`);
 
-        if(!response.ok){
-            throw new Error(`Error fetching contacts: ${response.statusText}`)
-        }
-
-        return await response.json()
-    }
-    
-    async createContact(contact){
-        const response = await fetch(`${this.url}/contacts`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(contact)
-        })
-
-        if(!response.ok){
-            throw new Error(`Error creating contact: ${response.statusText}`)
-        }
-
-        return await response.json()
-    }
-
-    async updateContact(contact){
-        const response = await fetch(`${this.url}/contacts/${contact.id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(contact)
-        })
-
-        if(!response.ok){
-            throw new Error(`Error updating contact: ${response.statusText}`)
-        }
-
-        return await response.json()
-    }
-
-    async deleteContact(id){
-        const response = await fetch(`${this.url}/contacts/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
+            if (!response.ok) {
+                return {
+                    success: false,
+                    message: `Error fetching contacts: ${response.statusText}`
+                };
             }
-        })
 
-        if(!response.ok){
-            throw new Error(`Error deleting contact: ${response.statusText}`)
+            return {
+                success: true,
+                data: await response.json()
+            };
+        } catch (error) {
+            return {
+                success: false,
+                message: error.message
+            };
         }
+    }
 
-        return true
+    async createContact(contact) {
+        try {
+            const response = await fetch(`${this.url}/contacts`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(contact)
+            });
+
+            if (!response.ok) {
+                return {
+                    success: false,
+                    message: `Error creating contact: ${response.statusText}`
+                };
+            }
+
+            return {
+                success: true,
+                data: await response.json()
+            };
+        } catch (error) {
+            return {
+                success: false,
+                message: error.message
+            };
+        }
+    }
+
+    async updateContact(contact) {
+        try {
+            const response = await fetch(`${this.url}/contacts/${contact.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(contact)
+            });
+
+            if (!response.ok) {
+                return {
+                    success: false,
+                    message: `Error updating contact: ${response.statusText}`
+                };
+            }
+
+            return {
+                success: true,
+                data: await response.json()
+            };
+        } catch (error) {
+            return {
+                success: false,
+                message: error.message
+            };
+        }
+    }
+
+    async deleteContact(id) {
+        try {
+            const response = await fetch(`${this.url}/contacts/${id}`, {
+                method: 'DELETE'
+            });
+
+            if (!response.ok) {
+                return {
+                    success: false,
+                    message: `Error deleting contact: ${response.statusText}`
+                };
+            }
+
+            return {
+                success: true,
+                message: 'Contact deleted successfully'
+            };
+        } catch (error) {
+            return {
+                success: false,
+                message: error.message
+            };
+        }
     }
 }
