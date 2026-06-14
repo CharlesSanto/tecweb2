@@ -1,5 +1,5 @@
 import express from "express";
-import { ContactService } from "./services/ContactService.js";
+import { ContactService } from "./services/contact-service.js";
 
 const app = express();
 app.use(express.json());
