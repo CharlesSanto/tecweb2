@@ -39,18 +39,21 @@ export class ContactService {
             if (!response.ok) {
                 return {
                     success: false,
-                    message: `Error creating contact: ${response.statusText}`
+                    message: `Error creating contact: ${response.statusText}`,
+                    status: response.status
                 };
             }
 
             return {
                 success: true,
-                data: await response.json()
+                data: await response.json(),
+                status: response.status
             };
         } catch (error) {
             return {
                 success: false,
-                message: error.message
+                message: error.message,
+                status: response.status
             };
         }
     }
@@ -68,18 +71,21 @@ export class ContactService {
             if (!response.ok) {
                 return {
                     success: false,
-                    message: `Error updating contact: ${response.statusText}`
+                    message: `Error updating contact: ${response.statusText}`,
+                    status: response.status
                 };
             }
 
             return {
                 success: true,
-                data: await response.json()
+                data: await response.json(),
+                    status: response.status
             };
         } catch (error) {
             return {
                 success: false,
-                message: error.message
+                message: error.message,
+                status: response.status
             };
         }
     }
@@ -93,18 +99,21 @@ export class ContactService {
             if (!response.ok) {
                 return {
                     success: false,
-                    message: `Error deleting contact: ${response.statusText}`
+                    message: `Error deleting contact: ${response.statusText}`,
+                    status: response.status
                 };
             }
 
             return {
                 success: true,
-                message: 'Contact deleted successfully'
+                message: 'Contact deleted successfully',
+                status: response.status
             };
         } catch (error) {
             return {
                 success: false,
-                message: error.message
+                message: error.message,
+                status: response.status
             };
         }
     }

@@ -10,22 +10,22 @@ const contactService = new ContactService(
 
 app.get("/api/contacts", async (req, res) => {
     const contacts = await contactService.getContacts();
-    res.json(contacts);
+    res.json(contacts).status(contacts.status);
 });
 
 app.post("/api/contacts", async (req, res) => {
     const contact = await contactService.createContact(req.body);
-    res.status(201).json(contact);
+    res.status(contact.status).json(contact);
 });
 
 app.put("/api/contacts/:id", async (req, res) => {
     const contact = await contactService.updateContact(req.body);
-    res.json(contact);
+    res.status(contact.status).json(contact);
 });
 
 app.delete("/api/contacts/:id", async (req, res) => {
     await contactService.deleteContact(req.params.id);
-    res.status(204).send();
+    res.send();
 });
 
 app.listen(8080, () => {
