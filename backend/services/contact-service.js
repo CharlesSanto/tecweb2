@@ -16,11 +16,14 @@ export class ContactService {
     async createContact(contact){
         const response = await fetch(`${this.url}/contacts`, {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify(contact)
         })
 
         if(!response.ok){
-            throw new Error(`Error creating contactL ${response.statusText}`)
+            throw new Error(`Error creating contact: ${response.statusText}`)
         }
 
         return await response.json()
@@ -29,6 +32,9 @@ export class ContactService {
     async updateContact(contact){
         const response = await fetch(`${this.url}/contacts/${contact.id}`, {
             method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify(contact)
         })
 
@@ -41,13 +47,16 @@ export class ContactService {
 
     async deleteContact(id){
         const response = await fetch(`${this.url}/contacts/${id}`, {
-            method: 'DELETE'
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
         })
 
         if(!response.ok){
             throw new Error(`Error deleting contact: ${response.statusText}`)
         }
 
-        return await response.json()
+        return true
     }
 }
