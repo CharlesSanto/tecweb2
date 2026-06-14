@@ -5,7 +5,7 @@ const app = express();
 app.use(express.json());
 
 const contactService = new ContactService(
-    "http://localhost:3000"
+    "http://localhost:3001"
 );
 
 app.get("/api/contacts", async (req, res) => {
@@ -28,4 +28,6 @@ app.delete("/api/contacts/:id", async (req, res) => {
     res.status(204).send();
 });
 
-app.listen(8080);
+app.listen(8080, () => {
+    console.log("Express running on port 8080");
+});
