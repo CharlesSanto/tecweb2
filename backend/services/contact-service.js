@@ -10,18 +10,21 @@ export class ContactService {
             if (!response.ok) {
                 return {
                     success: false,
-                    message: `Error fetching contacts: ${response.statusText}`
+                    message: `Error fetching contacts: ${response.statusText}`,
+                    status: response.status
                 };
             }
 
             return {
                 success: true,
-                data: await response.json()
+                data: await response.json(),
+                status: response.status
             };
         } catch (error) {
             return {
                 success: false,
-                message: error.message
+                message: error.message,
+                status: 500
             };
         }
     }
@@ -53,14 +56,14 @@ export class ContactService {
             return {
                 success: false,
                 message: error.message,
-                status: response.status
+                status: 500
             };
         }
     }
 
-    async updateContact(contact) {
+    async updateContact(id, contact) {
         try {
-            const response = await fetch(`${this.url}/contacts/${contact.id}`, {
+            const response = await fetch(`${this.url}/contacts/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -79,13 +82,13 @@ export class ContactService {
             return {
                 success: true,
                 data: await response.json(),
-                    status: response.status
+                status: response.status
             };
         } catch (error) {
             return {
                 success: false,
                 message: error.message,
-                status: response.status
+                status: 500
             };
         }
     }
@@ -113,7 +116,7 @@ export class ContactService {
             return {
                 success: false,
                 message: error.message,
-                status: response.status
+                status: 500
             };
         }
     }
