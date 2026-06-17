@@ -15,7 +15,7 @@ npm install
 Navegue até a pasta do backend e inicie o simulador de banco de dados. Este processo deve permanecer ativo para que os dados sejam salvos no arquivo `db.json`.
 
 cd backend
-npx json-server --watch db.json --port 3001
+npm run dev
 
 ### 2. Inicializar o Servidor Express (Terminal 2)
 
