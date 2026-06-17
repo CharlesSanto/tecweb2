@@ -1,17 +1,18 @@
 import { Link } from 'react-router-dom';
+import './Home.css'; 
 
 export default function Home() {
   return (
-    <div style={{ textAlign: 'center', marginTop: '50px' }}>
-      <h1>Agenda de Contatos</h1>
-      <p>O que você deseja fazer?</p>
+    <div className="home-container">
+      <h1 className="home-title">Agenda de Contatos</h1>
+      <p className="home-subtitle">O que você deseja fazer?</p>
       
-      <div style={{ display: 'flex', gap: '20px', justifyContent: 'center' }}>
-        <Link to="/add">
-          <button>Adicionar Novo Contato</button>
+      <div className="home-actions">
+        <Link to="/add" className="btn-modern">
+          Adicionar Novo Contato
         </Link>
-        <Link to="/contacts">
-          <button>Ver Meus Contatos</button>
+        <Link to="/contacts" className="btn-modern">
+          Ver Meus Contatos
         </Link>
       </div>
     </div>
