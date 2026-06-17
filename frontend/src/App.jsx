@@ -12,9 +12,10 @@ function App() {
     const loadData = async () => {
       try {
         const data = await contactService.getAll();
-        setContacts(data);
+        const contactsArray = Array.isArray(data) ? data : data.data || data.contacts || [];
+        setContacts(contactsArray);
       } catch (err) {
-        console.error("Erro ao buscar dados:", err);
+        console.error(err);
       } 
     };
     loadData();
@@ -23,8 +24,14 @@ function App() {
   const handleSaveContact = async (newContact) => {
     try {
       const savedContact = await contactService.save(newContact);
-      setContacts((current) => [...current, savedContact]);
-    } catch  {
+      if (savedContact && savedContact.id) {
+        setContacts((current) => [...current, savedContact]);
+      } else {
+        const refreshedData = await contactService.getAll();
+        const contactsArray = Array.isArray(refreshedData) ? refreshedData : refreshedData.data || refreshedData.contacts || [];
+        setContacts(contactsArray);
+      }
+    } catch {
       alert("Erro ao salvar o contato.");
     }
   };
@@ -32,8 +39,10 @@ function App() {
   const handleUpdateContact = async (id, updatedData) => {
     try {
       const dataFromServer = await contactService.update(id, updatedData);
+      const updatedContact = dataFromServer && dataFromServer.id ? dataFromServer : { ...updatedData, id };
+      
       setContacts((current) => 
-        current.map(c => String(c.id) === String(id) ? dataFromServer : c)
+        current.map(c => String(c.id) === String(id) ? updatedContact : c)
       );
     } catch {
       alert("Erro ao atualizar o contato.");
@@ -53,7 +62,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/add" element={<ContactForm onAdd={handleSaveContact} contacts={contacts} />} />
+        <Route path="/add" element={<ContactForm onAdd={handleSaveContact} />} />
         <Route path="/edit/:id" element={<ContactForm onUpdate={handleUpdateContact} contacts={contacts} />} />
         <Route path="/contacts" element={<ListContacts contacts={contacts} onDelete={handleDeleteContact} />} />
       </Routes>
